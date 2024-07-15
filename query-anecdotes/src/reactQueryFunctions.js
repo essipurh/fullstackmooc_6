@@ -1,7 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useNotificationDispatch, setNotification } from './notificationContext'
 
 // maybe not the cleanest way..
+
 export const ReactQueryMutation = (mutationFunction, queryKey, addNew=false) => {
+  const dispatch = useNotificationDispatch()
   const queryClient = useQueryClient()
   const newMutation = useMutation({
     mutationFn: mutationFunction,
@@ -13,7 +16,9 @@ export const ReactQueryMutation = (mutationFunction, queryKey, addNew=false) => 
         queryClient.setQueryData([queryKey], data.map(obj => obj.id !== returnedObject.id ? obj : returnedObject))
       }
     },
-    onError: (error) => { console.log(error.response.data.error) }
+    onError: (error) => { 
+      setNotification(dispatch,{type:'SET', payload: error.response.data.error}, 5)
+    }
   })
   return newMutation
 }

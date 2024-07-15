@@ -5,7 +5,6 @@ const router = jsonServer.router('db.json')
 const middlewares = jsonServer.defaults()
 
 const validator = (request, response, next) => {
-  console.log('HEREWEARE')
 
   const { content } = request.body
 

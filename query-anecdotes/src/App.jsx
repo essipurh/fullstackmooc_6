@@ -1,16 +1,20 @@
 import { ReactQueryMutation, ReactQuery } from './reactQueryFunctions'
+import { useNotificationDispatch, setNotification } from './notificationContext'
+import { useReducer } from 'react'
 import { getAll, update  } from './requests'
 import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 
 
-//import { ReactQueryMutation, ReactQuery } from './reactQueryFunctions'
 
 const App = () => {
+
   const updateAnecdoteMutation = ReactQueryMutation(update, 'anecdotes')
+  const dispatch = useNotificationDispatch()
 
   const handleVote =  (anecdote) => {
     updateAnecdoteMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 })
+    setNotification(dispatch,{ type: 'SET', payload: anecdote.content }, 5)
   }
 
   const result = ReactQuery(getAll, 'anecdotes', 1)
