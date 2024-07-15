@@ -14,7 +14,7 @@ const App = () => {
 
   const handleVote =  (anecdote) => {
     updateAnecdoteMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 })
-    setNotification(dispatch,{ type: 'SET', payload: anecdote.content }, 5)
+    setNotification(dispatch,{ type: 'SET', payload: `anecdote '${anecdote.content}' voted` }, 5)
   }
 
   const result = ReactQuery(getAll, 'anecdotes', 1)
